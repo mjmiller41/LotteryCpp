@@ -1,0 +1,11 @@
+# VSCode #
+# IDE-specific files
+.vscode/
+
+# CMake #
+# Build artifacts
+build/
+install/
+bin/
+lib/
+
