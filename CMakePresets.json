@@ -9,8 +9,9 @@
       "hidden": true,
       "cacheVariables": {
         "CMAKE_INSTALL_PREFIX": "${sourceDir}/install/${presetName}",
-        "CMAKE_C_COMPILER": "C:/msys64/ucrt64/bin/gcc.exe",
-        "CMAKE_CXX_COMPILER": "C:/msys64/ucrt64/bin/g++.exe",
+        "CMAKE_C_COMPILER": "/usr/bin/gcc",
+        "CMAKE_CXX_COMPILER": "/usr/bin/g++",
+        "OPENSSL_INCLUDE_DIR": "/usr/include/openssl",
         "CMAKE_BUILD_TYPE": "Debug"
       }
     },
@@ -19,7 +20,7 @@
       "displayName": "Debug Build Config",
       "inherits": "base",
       "cacheVariables": {
-        "CMAKE_CXX_FLAGS": "-std=c++23 -fdiagnostics-color=always -g -ggdb -Og -pedantic-errors -Wall -Wconversion -Weffc++ -Werror -Wextra -Wsign-conversion"
+        "CMAKE_CXX_FLAGS": "-std=c++23 -fdiagnostics-color=always -g -ggdb -Og -pedantic-errors -Wall -Wconversion -Werror -Wextra -Wsign-conversion"
       }
     },
     {
