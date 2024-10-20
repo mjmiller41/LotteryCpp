@@ -4,9 +4,19 @@
 #include "main.h"
 
 int main() {
-  SString text = Api::get();
-  DataTable table(text);
+  map<std::string, SString> api_data = Api::get();
+  DataTable table(api_data);
   table.print();
+
+  for (SString header : table.headers()) {
+    std::cout << header.data() << " ";
+  }
+  std::cout << '\n';
+
+  for (SString type : table.types()) {
+    std::cout << type.data() << " ";
+  }
+  std::cout << '\n';
 
   return 0;
 }

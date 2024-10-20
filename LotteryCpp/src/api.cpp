@@ -3,28 +3,27 @@
 
 #include "api.h"
 
-SString Api::get(const cpr::Url& url, const cpr::Parameters& params) {
+std::map<std::string, SString> Api::get(const cpr::Url& url,
+                                        const cpr::Parameters& params) {
   std::cout << "Requesting api data ...\n";
   cpr::Response res =
       cpr::Get(cpr::Url{"https://data.ny.gov/resource/5xaw-6ayf.csv"},
                cpr::Parameters{params});
-
+  std::map<std::string, SString> data;
   switch (res.status_code) {
     case 200:
       std::cout << "Request successful\n";
-      if (res.header["content-type"] == "text/csv; charset=UTF-8") {
-        return SString(res.text);
-      }
-      break;
+      data["data"] = SString(res.text);
+      data["fields"] = SString(res.header["X-Soda2-Fields"]);
+      data["types"] = SString(res.header["X-Soda2-Types"]);
+      return data;
     case 202:  // 202 == Request Processing, try again
       std::cout << "Retrying request ...\n";
       return get(url, params);
-      break;
     default:
       print_err(res);
-      break;
+      return data;
   }
-  return SString();
 }
 
 void Api::print_err(cpr::Response res) {

@@ -13,49 +13,55 @@ void SString::setData(const string str) { m_str = str; }
 
 vector<SString> SString::split(const char& delimiter) {
   vector<SString> result;
-  stringstream ss(m_str);
+  stringstream stream(m_str);
   string line;
-  while (getline(ss, line, delimiter)) {
-    SString s_line{line};
+  while (getline(stream, line, delimiter)) {
+    SString s_line(line);
     s_line.strip();
     result.push_back(s_line);
   }
   return result;
 }
 
-void SString::replace(const char& old_char, const char& new_char) {
-  string new_str;
-  for (size_t i = 0; i < m_str.size(); i++) {
-    if (m_str[i] != old_char) {
-      new_str.push_back(m_str[i]);
-    } else if (new_char != '\0') {
-      new_str.push_back(new_char);
-    }
+void SString::replace(const std::string& old_char,
+                      const std::string& new_char) {
+  std::size_t index = m_str.find(old_char);
+  std::size_t count = 1;
+  while (index != m_str.npos) {
+    m_str.replace(index, count, new_char);
+    index = m_str.find(old_char);
   }
-  m_str = new_str;
   strip_inv();
 }
 
 size_t SString::last_i() const { return m_str.size() - 1; }
 
 void SString::l_strip() {
-  char c = m_str[0];
-  while (isspace(c)) {
-    m_str.erase(0, 1);
-    c = m_str[0];
+  std::size_t index = 0;
+  std::size_t count = 1;
+  char char_ = m_str[index];
+  while (isspace(char_)) {
+    m_str.erase(index, count);
+    char_ = m_str[index];
   }
 }
 
 void SString::r_strip() {
-  char c = m_str[last_i()];
-  while (isspace(c)) {
+  char char_ = m_str[last_i()];
+  while (isspace(char_)) {
     m_str.erase(last_i());
-    c = m_str[last_i()];
+    char_ = m_str[last_i()];
   }
 }
 
+void SString::clean() {
+  replace("[");
+  replace("]");
+  replace("\"");
+}
+
 void SString::strip_inv() {
-  function f = [](unsigned char x) { return isspace(x) && x != ' '; };
+  auto f = [](unsigned char x) { return isspace(x) && x != ' '; };
   string::iterator i = remove_if(m_str.begin(), m_str.end(), f);
   m_str.erase(i, m_str.end());
 }
@@ -63,12 +69,13 @@ void SString::strip_inv() {
 void SString::strip() {
   l_strip();
   r_strip();
+  clean();
   strip_inv();
 }
 
 int test() {
   SString str{"Hello, World!, \"This is a test\""};
-  str.replace('"');
+  str.replace("\"");
   vector<SString> list = str.split();
 
   for (SString item : list) {

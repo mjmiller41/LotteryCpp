@@ -4,14 +4,16 @@
 #include "data_table.h"
 
 // PUBLIC members
-DataTable::DataTable(SString& str) {
-  create_table(str);
-  set_headers();
+DataTable::DataTable(map<std::string, SString>& data) {
+  create_table(data["data"]);
+  set_headers(data["fields"]);
+  set_types(data["types"]);
 };
 
-std::vector<std::vector<SString>> DataTable::table() { return m_table; };
-std::vector<SString> DataTable::headers() { return m_headers; };
-std::vector<SString> DataTable::index() { return m_index; };
+std::vector<std::vector<SString>> DataTable::table() { return m_table; }
+std::vector<SString> DataTable::headers() { return m_headers; }
+std::vector<SString> DataTable::types() { return m_types; }
+std::vector<SString> DataTable::index() { return m_index; }
 void DataTable::print() {
   for (std::vector<SString> row : m_table) {
     for (size_t i = 0; i < row.size(); i++) {
@@ -35,10 +37,9 @@ void DataTable::create_table(SString& str) {
       m_table[i][j].replace({'"'});
     }
   }
-}
-void DataTable::set_headers() {
-  m_headers = m_table[0];
   m_table.erase(m_table.begin());
 }
+void DataTable::set_headers(SString& str) { m_headers = str.split(); }
+void DataTable::set_types(SString& str) { m_types = str.split(); }
 
 #endif

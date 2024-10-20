@@ -4,6 +4,7 @@
 #include <cpr/cpr.h>
 
 #include <iostream>
+#include <map>
 #include <vector>
 
 #include "s_string.h"
@@ -16,8 +17,8 @@ const cpr::Parameter query{"$where", q.data()};
 const cpr::Parameters params_{token, query};
 const cpr::Url url_{"https://data.ny.gov/resource/5xaw-6ayf.csv"};
 
-SString get(const cpr::Url& url = url_,
-            const cpr::Parameters& params = params_);
+std::map<std::string, SString> get(const cpr::Url& url = url_,
+                                   const cpr::Parameters& params = params_);
 void print_err(cpr::Response res);
 };  // namespace Api
 

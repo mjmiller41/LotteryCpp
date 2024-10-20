@@ -8,6 +8,7 @@ set(PROJECT_SOURCE_DIR src)
 
 add_subdirectory(${LotteryCpp_SOURCE_DIR}/LotteryCpp)
 add_subdirectory(${LotteryCpp_SOURCE_DIR}/SString)
+add_subdirectory(${LotteryCpp_SOURCE_DIR}/Timestamp)
 
 include(FetchContent)
 FetchContent_Declare(cpr GIT_REPOSITORY https://github.com/libcpr/cpr.git

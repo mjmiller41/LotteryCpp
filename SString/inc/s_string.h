@@ -24,11 +24,12 @@ class SString {
   void setData(const string str);
 
   vector<SString> split(const char& delimiter = ',');
-  void replace(const char& old_char, const char& new_char = '\0');
+  void replace(const std::string& old_char, const std::string& new_char = "");
   size_t last_i() const;
-  void strip_inv();
   void l_strip();
   void r_strip();
+  void clean();
+  void strip_inv();
   void strip();
 };
 
