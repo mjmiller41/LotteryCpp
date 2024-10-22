@@ -15,7 +15,7 @@ class Timestamp {
   Timestamp(const std::string& timestamp) : m_timestamp{timestamp} {
     m_timepoint = toTimePoint(timestamp);
   };
-  std::string timestamp();
+  const std::string timestamp() const;
   friend std::ostream& operator<<(std::ostream& out, const Timestamp& dt);
 
  private:

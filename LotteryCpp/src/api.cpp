@@ -3,19 +3,19 @@
 
 #include "api.h"
 
-std::map<std::string, SString> Api::get(const cpr::Url& url,
-                                        const cpr::Parameters& params) {
+std::map<std::string, std::string> Api::get(const cpr::Url& url,
+                                            const cpr::Parameters& params) {
   std::cout << "Requesting api data ...\n";
   cpr::Response res =
       cpr::Get(cpr::Url{"https://data.ny.gov/resource/5xaw-6ayf.csv"},
                cpr::Parameters{params});
-  std::map<std::string, SString> data;
+  std::map<std::string, std::string> data;
   switch (res.status_code) {
     case 200:
       std::cout << "Request successful\n";
-      data["data"] = SString(res.text);
-      data["fields"] = SString(res.header["X-Soda2-Fields"]);
-      data["types"] = SString(res.header["X-Soda2-Types"]);
+      data["data"] = std::string(res.text);
+      data["fields"] = std::string(res.header["X-Soda2-Fields"]);
+      data["types"] = std::string(res.header["X-Soda2-Types"]);
       return data;
     case 202:  // 202 == Request Processing, try again
       std::cout << "Retrying request ...\n";

@@ -3,29 +3,27 @@
 
 #include <iostream>
 #include <map>
+#include <string>
 #include <vector>
 
-#include "data_table.h"
-#include "s_string.h"
+#include "utils.h"
 
 class DataTable {
  public:
-  DataTable(map<std::string, SString>& data);
-
-  std::vector<std::vector<SString>> table();
-  std::vector<SString> headers();
-  std::vector<SString> types();
-  std::vector<SString> index();
-  void print();
+  DataTable(const std::map<std::string, std::string>& data);
+  const std::vector<std::vector<std::string>> table() const;
+  const std::vector<std::string> headers() const;
+  const std::vector<std::string> row(size_t index) const;
+  const std::vector<std::string> row(const std::string& timestamp) const;
+  // std::vector<std::string> columnAt();
+  friend std::ostream& operator<<(std::ostream&, const DataTable&);
+  friend std::ostream& operator<<(std::ostream&,
+                                  const std::vector<std::string>&);
 
  private:
-  std::vector<std::vector<SString>> m_table;
-  std::vector<SString> m_headers;
-  std::vector<SString> m_types;
-  std::vector<SString> m_index;
+  std::vector<std::vector<std::string>> m_rows;
+  std::vector<std::string> m_headers;
 
-  void create_table(SString& str);
-  void set_headers(SString& str);
-  void set_types(SString& str);
+  void createTable(const std::string& str);
 };
 #endif

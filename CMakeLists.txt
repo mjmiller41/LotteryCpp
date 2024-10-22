@@ -7,8 +7,8 @@ set(CMAKE_CXX_STANDARD_REQUIRED True)
 set(PROJECT_SOURCE_DIR src)
 
 add_subdirectory(${LotteryCpp_SOURCE_DIR}/LotteryCpp)
-add_subdirectory(${LotteryCpp_SOURCE_DIR}/SString)
 add_subdirectory(${LotteryCpp_SOURCE_DIR}/Timestamp)
+add_subdirectory(${LotteryCpp_SOURCE_DIR}/Utils)
 
 include(FetchContent)
 FetchContent_Declare(cpr GIT_REPOSITORY https://github.com/libcpr/cpr.git

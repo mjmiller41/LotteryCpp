@@ -4,17 +4,18 @@
 #include "main.h"
 
 int main() {
-  map<std::string, SString> api_data = Api::get();
+  std::map<std::string, std::string> api_data = Api::get();
   DataTable table(api_data);
-  table.print();
+  std::cout << table << '\n';
+  std::vector<std::string> row = table.row("2017-11-07T00:00:00.000");
+  std::cout << row << " ";
 
-  for (SString header : table.headers()) {
-    std::cout << header.data() << " ";
+  for (std::string item : row) {
+    std::cout << item << " ";
   }
   std::cout << '\n';
-
-  for (SString type : table.types()) {
-    std::cout << type.data() << " ";
+  for (std::string header : table.headers()) {
+    std::cout << header.data() << " ";
   }
   std::cout << '\n';
 
