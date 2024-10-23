@@ -1,5 +1,5 @@
-#ifndef DATETIME
-#define DATETIME
+#ifndef TIMESTAMP_TIMESTAMP_CPP_
+#define TIMESTAMP_TIMESTAMP_CPP_
 
 #include "timestamp.h"
 
@@ -28,4 +28,4 @@ std::string Timestamp::toTimestamp(TimePoint time_point) {
   return static_cast<std::string>(str);
 }
 
-#endif
+#endif  // TIMESTAMP_TIMESTAMP_CPP_

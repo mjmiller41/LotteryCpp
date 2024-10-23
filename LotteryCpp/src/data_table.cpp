@@ -1,36 +1,58 @@
-#ifndef DATA_TABLE
-#define DATA_TABLE
+#ifndef LOTTERYCPP_DATA_TABLE_CPP_
+#define LOTTERYCPP_DATA_TABLE_CPP_
 
 #include "data_table.h"
 
 // PUBLIC members
-DataTable::DataTable(const std::map<std::string, std::string>& data) {
-  const std::string& str = data.at("data");
-  createTable(str);
-};
-const std::vector<std::vector<std::string>> DataTable::table() const {
-  return m_rows;
+DataTable::DataTable(const std::string &data) { createTable(data); }
+
+const std::vector<std::vector<std::string>> DataTable::data() const {
+  return m_data;
 }
+
 const std::vector<std::string> DataTable::headers() const { return m_headers; }
-const std::vector<std::string> DataTable::row(size_t index) const {
-  return m_rows[index];
+
+const std::vector<std::string> DataTable::row(const size_t index) const {
+  return m_data[index];
 };
+
 const std::vector<std::string> DataTable::row(
-    const std::string& timestamp) const {
-  size_t index = 0;
-  for (size_t i = 0; i < m_rows.size(); i++) {
-    if (timestamp == m_rows[i][0]) {
-      index = i;
+    const std::string &timestamp) const {
+  std::vector<std::string> items;
+  size_t index = m_data.size();
+  try {
+    for (size_t i = 0; i < m_data.size(); i++) {
+      index = Utils::find(timestamp, m_data[i]);
+      if (index < m_data[i].size()) break;
     }
-  }
-  return m_rows[index];
+  } catch (const char *txtExcpt) {
+    std::cerr << txtExcpt << '\n';
+  } catch (...) {
+    std::cerr << "Unknown exception occured!\n";
+  };
+  return m_data[index];
 };
-// std::vector<std::string> DataTable::columnAt() {};
-std::ostream& operator<<(std::ostream& out, const DataTable& data_table) {
-  const auto t_len = data_table.m_rows.size();
+
+const std::vector<std::string> DataTable::column(const size_t index) const {
+  std::vector<std::string> column;
+  // for (std::vector<std::string> row : m_data) {
+  for (size_t i = 0; i < m_data.size(); i++) {
+    column.push_back(m_data[i][index]);
+  }
+  return column;
+};
+
+const std::vector<std::string> DataTable::column(
+    const std::string &header) const {
+  size_t index = Utils::find(header, m_headers);
+  return column(index);
+};
+
+std::ostream &operator<<(std::ostream &out, const DataTable &data_table) {
+  const auto t_len = data_table.m_data.size();
   out << "[";
   for (size_t i = 0; i < t_len; i++) {
-    const auto& row = data_table.m_rows[i];
+    const auto &row = data_table.m_data[i];
     const auto r_len = row.size();
     for (size_t j = 0; j < r_len; j++) {
       j < r_len - 1   ? out << "\"" << row[j] << "\", "
@@ -42,33 +64,32 @@ std::ostream& operator<<(std::ostream& out, const DataTable& data_table) {
   return out;
 }
 
-std::ostream& operator<<(std::ostream& out,
-                         const std::vector<std::string>& row) {
+std::ostream &operator<<(std::ostream &out,
+                         const std::vector<std::string> &row) {
   out << "[";
   for (size_t i = 0; i < row.size(); i++) {
     if (i < row.size() - 1) {
-      out << "\"" << row[i] << "\", ";
+      out << "\"" << row[i] << "\",\n";
     } else {
-      out << "\"" << row[i] << "\"]\n";
+      out << "\"" << row[i] << "\"]";
     }
   }
   return out;
 }
 
 // PRIVATE members
-void DataTable::createTable(const std::string& str) {
+void DataTable::createTable(const std::string &str) {
   std::vector<std::string> str_rows = Utils::split(str, '\n');
-  std::vector<std::vector<std::string>> rows;
-  for (auto& str_row : str_rows) {
-    auto row = Utils::split(str_row, ',');
-    for (auto& item : row) {
-      Utils::replace(item, "\"", "");
+  for (auto &str_row : str_rows) {
+    std::vector<std::string> row = Utils::split(str_row, ',');
+    for (auto &item : row) {
+      Utils::replace(item, '"', "");
     }
-    rows.push_back(row);
+    if (row.size() != 4) continue;
+    m_data.push_back(row);
   }
-  m_headers = rows[0];
-  rows.erase(rows.begin());
-  m_rows = rows;
+  m_headers = m_data[0];
+  m_data.erase(m_data.begin());
 }
 
-#endif
+#endif  // LOTTERYCPP_DATA_TABLE_CPP_

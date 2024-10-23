@@ -1,38 +1,24 @@
-#ifndef API
-#define API
+#ifndef LOTTERYCPP_API_CPP_
+#define LOTTERYCPP_API_CPP_
 
 #include "api.h"
 
-std::map<std::string, std::string> Api::get(const cpr::Url& url,
-                                            const cpr::Parameters& params) {
+std::string Api::get() {
   std::cout << "Requesting api data ...\n";
-  cpr::Response res =
-      cpr::Get(cpr::Url{"https://data.ny.gov/resource/5xaw-6ayf.csv"},
-               cpr::Parameters{params});
+  cpr::Response res = cpr::Get(cpr::Url{url}, cpr::Parameters{params});
   std::map<std::string, std::string> data;
   switch (res.status_code) {
     case 200:
       std::cout << "Request successful\n";
-      data["data"] = std::string(res.text);
-      data["fields"] = std::string(res.header["X-Soda2-Fields"]);
-      data["types"] = std::string(res.header["X-Soda2-Types"]);
-      return data;
+      return std::string(res.text);
     case 202:  // 202 == Request Processing, try again
       std::cout << "Retrying request ...\n";
-      return get(url, params);
+      return get();
     default:
-      print_err(res);
-      return data;
+      std::string message = std::format("Error: {}\n", res.status_code);
+      message += std::format("{}", res.status_line);
+      throw ApiGetException(message);
   }
 }
 
-void Api::print_err(cpr::Response res) {
-  if (res.error) {
-    std::cerr << "Error Message: " << res.error.message << '\n';
-  }
-  std::cerr << "Status Code: [" << res.status_code << "]\n";
-  std::cerr << "Status: " << res.status_line << '\n';
-  std::cerr << "Response Body: " << res.text << '\n';
-};
-
-#endif
+#endif  // LOTTERYCPP_API_CPP_

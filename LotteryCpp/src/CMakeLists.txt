@@ -14,6 +14,8 @@ add_executable(LotteryCpp
   main.cpp
   api.cpp
   data_table.cpp
+  mega_millions.cpp
+  exceptions.cpp
 )
 
 target_link_libraries(LotteryCpp PUBLIC Timestamp Utils)

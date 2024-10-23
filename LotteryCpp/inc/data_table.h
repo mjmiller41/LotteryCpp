@@ -1,29 +1,34 @@
-#ifndef DATA_TABLE_H
-#define DATA_TABLE_H
+#ifndef LOTTERYCPP_DATA_TABLE_H_
+#define LOTTERYCPP_DATA_TABLE_H_
 
+#include <algorithm>
+#include <cassert>
 #include <iostream>
+#include <limits>
 #include <map>
 #include <string>
 #include <vector>
 
 #include "utils.h"
 
+std::ostream &operator<<(std::ostream &out,
+                         const std::vector<std::string> &row);
+
 class DataTable {
  public:
-  DataTable(const std::map<std::string, std::string>& data);
-  const std::vector<std::vector<std::string>> table() const;
+  DataTable(const std::string &data);
+  const std::vector<std::vector<std::string>> data() const;
   const std::vector<std::string> headers() const;
-  const std::vector<std::string> row(size_t index) const;
-  const std::vector<std::string> row(const std::string& timestamp) const;
-  // std::vector<std::string> columnAt();
-  friend std::ostream& operator<<(std::ostream&, const DataTable&);
-  friend std::ostream& operator<<(std::ostream&,
-                                  const std::vector<std::string>&);
+  const std::vector<std::string> row(const size_t index) const;
+  const std::vector<std::string> row(const std::string &timestamp) const;
+  const std::vector<std::string> column(const size_t index) const;
+  const std::vector<std::string> column(const std::string &header) const;
+  friend std::ostream &operator<<(std::ostream &, const DataTable &);
 
  private:
-  std::vector<std::vector<std::string>> m_rows;
+  std::vector<std::vector<std::string>> m_data;
   std::vector<std::string> m_headers;
-
-  void createTable(const std::string& str);
+  void createTable(const std::string &str);
 };
-#endif
+
+#endif  // LOTTERYCPP_DATA_TABLE_H_

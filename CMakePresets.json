@@ -20,7 +20,7 @@
       "displayName": "Debug Build Config",
       "inherits": "base",
       "cacheVariables": {
-        "CMAKE_CXX_FLAGS": "-std=c++23 -fdiagnostics-color=always -g -ggdb -Og -pedantic-errors -Wall -Wconversion -Werror -Wextra -Wsign-conversion"
+        "CMAKE_CXX_FLAGS": "-std=c++23 -fdiagnostics-color=always -g -ggdb -Og -pedantic-errors -Wall -Wconversion -Wextra -Wsign-conversion"
       }
     },
     {

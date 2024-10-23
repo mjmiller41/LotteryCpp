@@ -1,25 +1,35 @@
-#ifndef MAIN
-#define MAIN
+#ifndef LOTTERYCPP_MAIN_CPP_
+#define LOTTERYCPP_MAIN_CPP_
 
 #include "main.h"
 
 int main() {
-  std::map<std::string, std::string> api_data = Api::get();
+  std::string api_data{};
+  try {
+    api_data = Api::get();
+  } catch (ApiGetException e) {
+    std::cerr << e.what() << '\n';
+  }
   DataTable table(api_data);
-  std::cout << table << '\n';
-  std::vector<std::string> row = table.row("2017-11-07T00:00:00.000");
-  std::cout << row << " ";
+  MegaMillions mega_millions(table);
+  DataTable mm_history = mega_millions.history();
+  // std::cout << table << '\n';
+  std::cout << mega_millions.history().headers() << '\n';
 
-  for (std::string item : row) {
-    std::cout << item << " ";
-  }
-  std::cout << '\n';
-  for (std::string header : table.headers()) {
-    std::cout << header.data() << " ";
-  }
-  std::cout << '\n';
+  const std::string timestamp{"2017-11-07T00:00:00.000"};
+  std::vector<std::string> row1 = mm_history.row(timestamp);
+  std::cout << row1 << '\n';
+
+  std::vector<std::string> row2 = mm_history.row(22);
+  std::cout << row2 << '\n';
+
+  std::vector<std::string> column1 = mm_history.column(0);
+  std::cout << column1 << '\n';
+
+  std::vector<std::string> column2 = mm_history.column("winning_numbers");
+  std::cout << column2 << '\n';
 
   return 0;
 }
 
-#endif
+#endif  // LOTTERYCPP_MAIN_CPP_

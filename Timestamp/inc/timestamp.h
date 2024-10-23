@@ -1,5 +1,5 @@
-#ifndef DATETIME_H
-#define DATETIME_H
+#ifndef TIMESTAMP_TIMESTAMP_H_
+#define TIMESTAMP_TIMESTAMP_H_
 
 #include <chrono>
 #include <iomanip>
@@ -26,4 +26,4 @@ class Timestamp {
   std::string toTimestamp(TimePoint time_point);
 };
 
-#endif
+#endif  // TIMESTAMP_TIMESTAMP_H_
