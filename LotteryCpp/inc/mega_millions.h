@@ -4,17 +4,19 @@
 #include <iostream>
 #include <string>
 
-#include "data_table.h"
+#include "history.h"
 
-class MegaMillions {
- public:
-  MegaMillions(DataTable data_table);
-  const DataTable history() const;
+class MegaMillions
+{
+public:
+  MegaMillions(std::string &data_str);
+  const History *history() const;
+  ~MegaMillions();
 
- private:
-  DataTable m_history;
+private:
+  History *m_history = nullptr;
   const int m_white_ball_limit{70};
   const int m_mega_ball_limit{25};
 };
 
-#endif  // LOTTERYCPP_MEGA_MILLIONS_CPP_
+#endif // LOTTERYCPP_MEGA_MILLIONS_CPP_

@@ -4,9 +4,13 @@
 #include "mega_millions.h"
 
 // PUBLIC MEMBERS
-MegaMillions::MegaMillions(DataTable data_table) : m_history{data_table} {}
-const DataTable MegaMillions::history() const { return m_history; }
+MegaMillions::MegaMillions(std::string &data_str)
+    : m_history(new History(data_str))
+{
+}
+const History *MegaMillions::history() const { return m_history; }
+MegaMillions::~MegaMillions() { delete m_history; }
 
 // PRIVATE MEMBERS
 
-#endif  // LOTTERYCPP_MEGA_MILLIONS_CPP_
+#endif // LOTTERYCPP_MEGA_MILLIONS_CPP_

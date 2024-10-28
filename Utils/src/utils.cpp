@@ -16,13 +16,14 @@ void replace(std::string &str, const char old_char, const char *new_char) {
 
 std::vector<std::string> split(const std::string &str, char delimiter) {
   std::vector<std::string> result;
-  int startIndex = 0, endIndex = 0;
-  for (int i = 0; i <= str.size(); i++) {
+  size_t startIndex = 0, endIndex = 0;
+  for (size_t i = 0; i <= str.size(); i++) {
     // If we reached the end of the word or the end of the input.
     if (str[i] == delimiter || i == str.size()) {
       endIndex = i;
       std::string temp;
       temp.append(str, startIndex, endIndex - startIndex);
+      replace(temp, '\"', "");
       result.push_back(temp);
       startIndex = endIndex + 1;
     }
@@ -30,7 +31,7 @@ std::vector<std::string> split(const std::string &str, char delimiter) {
   return result;
 }
 
-void zFill(std::string &str, const size_t digits) {
+void zFill(std::string &str, size_t digits) {
   while (str.size() < digits) {
     str.insert(str.begin(), '0');
   }

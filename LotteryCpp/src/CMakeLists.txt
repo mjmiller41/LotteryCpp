@@ -13,8 +13,9 @@ endforeach()
 add_executable(LotteryCpp
   main.cpp
   api.cpp
-  data_table.cpp
   mega_millions.cpp
+  history.cpp
+  drawing.cpp
   exceptions.cpp
 )
 

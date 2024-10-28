@@ -9,6 +9,7 @@
 #include <string>
 #include <vector>
 
+#include "drawing.h"
 #include "utils.h"
 
 std::ostream &operator<<(std::ostream &out,
@@ -17,7 +18,7 @@ std::ostream &operator<<(std::ostream &out,
 class DataTable {
  public:
   DataTable(const std::string &data);
-  const std::vector<std::vector<std::string>> data() const;
+  const Drawings drawings() const;
   const std::vector<std::string> headers() const;
   const std::vector<std::string> row(const size_t index) const;
   const std::vector<std::string> row(const std::string &timestamp) const;
@@ -26,7 +27,7 @@ class DataTable {
   friend std::ostream &operator<<(std::ostream &, const DataTable &);
 
  private:
-  std::vector<std::vector<std::string>> m_data;
+  std::vector<Drawing> m_data;
   std::vector<std::string> m_headers;
   void createTable(const std::string &str);
 };

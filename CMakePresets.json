@@ -11,7 +11,7 @@
         "CMAKE_INSTALL_PREFIX": "${sourceDir}/install/${presetName}",
         "CMAKE_C_COMPILER": "/usr/bin/gcc",
         "CMAKE_CXX_COMPILER": "/usr/bin/g++",
-        "OPENSSL_INCLUDE_DIR": "/usr/include/openssl",
+        "OPENSSL_INCLUDE_DIR": "/usr/lib/ssl ",
         "CMAKE_BUILD_TYPE": "Debug"
       }
     },

@@ -4,11 +4,9 @@
 #include "data_table.h"
 
 // PUBLIC members
-DataTable::DataTable(const std::string &data) { createTable(data); }
+DataTable::DataTable(const std::string &data) { /*createTable(data);*/ }
 
-const std::vector<std::vector<std::string>> DataTable::data() const {
-  return m_data;
-}
+const Drawings DataTable::drawings() const { return m_data; }
 
 const std::vector<std::string> DataTable::headers() const { return m_headers; }
 
